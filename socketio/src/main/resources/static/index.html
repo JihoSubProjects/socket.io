@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+<body>
+    <h1>[SpringBoot Server, Javascript Client] socket.io-v2.3.0</h1>
+    <input type="text">
+    <ul></ul>
+
+    <script>
+        const socket = io('http://localhost:3000/chat', { transport: ['websocket'] });
+
+        const messages = [];
+        const messagesElement = document.querySelector('ul');
+
+        const inputElement = document.querySelector('input');
+        inputElement.addEventListener('keyup', (e) => {
+            if (e.keyCode !== 13) return;
+            socket.emit('chat', inputElement.value);
+            console.log({ socket });
+            inputElement.value = '';
+        })
+
+        socket
+            .on('connection', (s) => console.log(s, 'connected!'))
+            .on('connect_error', (e) => console.error(e.message))
+            .on('chat', (message) => {
+                messages.push(message);
+                messagesElement.innerHTML = '';
+                messages.forEach((m) => {
+                    const li = document.createElement('li');
+                    li.innerText = m;
+                    messagesElement.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>

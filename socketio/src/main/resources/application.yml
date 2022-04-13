@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+rt-server:
+  port: 3000
+  host: localhost
+
+spring:
+  main:
+    banner-mode: off
+
+logging:
+  level:
+    com.example.socketio: DEBUG
