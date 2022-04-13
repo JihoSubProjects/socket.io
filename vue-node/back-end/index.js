@@ -14,7 +14,7 @@ app.all('/*', function (req, res, next) {
 app.get('/', (req, res) => res.send('Hello'));
 
 io.on('connection', (socket) => {
-  console.log('a user connected: ' + socket);
+  console.log('a user connected: ' + socket.id);
   socket.emit('chat', 'Hello World!');
 
   socket.on('chat', (data) => {
